@@ -13,7 +13,9 @@ let background = document.querySelector('.background').getBoundingClientRect();
 let score_val = document.querySelector('.score_val');
 let message = document.querySelector('.message');
 let score_title = document.querySelector('.score_title');
-
+let highestScore = localStorage.getItem('highestScore') || 0;
+let highestScoreElement = document.querySelector('.highest_score_val');
+highestScoreElement.innerHTML = highestScore;
 let game_state = 'Start';
 img.style.display = 'none';
 message.classList.add('messageStyle');
@@ -58,6 +60,13 @@ function play(){
                     if(pipe_sprite_props.right < bird_props.left && pipe_sprite_props.right + move_speed >= bird_props.left && element.increase_score == '1'){
                         score_val.innerHTML =+ score_val.innerHTML + 1;
                         sound_point.play();
+                    }
+                    if (parseInt(score_val.innerHTML) > highestScore) {
+                        highestScore = parseInt(score_val.innerHTML);
+                        highestScoreElement.innerHTML = highestScore;
+                
+                        // Store the new highest score in local storage
+                        localStorage.setItem('highestScore', highestScore);
                     }
                     element.style.left = pipe_sprite_props.left - move_speed + 'px';
                 }
